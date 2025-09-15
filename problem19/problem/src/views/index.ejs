@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Users — Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 24px; background: #f7f8fb; }
+    h1 { margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f2f4f7; font-weight: 700; }
+    tr:hover td { background: #fafbff; }
+    .avatar { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; }
+    .center { text-align: center; }
+    .muted { color: #666; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <h1>Users</h1>
+
+  <% if (!users || users.length === 0) { %>
+    <p class="muted">No users found.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Gender</th>
+          <th>City</th>
+          <th>Pincode</th>
+          <th class="center">Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(function(user) { %>
+          <tr>
+            <td><%= (user.firstName || '') + ' ' + (user.lastName || '') %></td>
+            <td><%= user.email || '-' %></td>
+            <td><%= user.phone || user.mobile || '-' %></td>
+            <td><%= user.gender || '-' %></td>
+            <td><%= user.address && user.address.city ? user.address.city : '-' %></td>
+            <td><%= user.address && (user.address.postalCode || user.address.zip || user.address.pincode) ? (user.address.postalCode || user.address.zip || user.address.pincode) : '-' %></td>
+            <td class="center">
+              <% if (user.image || user.avatar) { %>
+                <img src="<%= user.image || user.avatar %>" alt="avatar" class="avatar" />
+              <% } else { %>
+                <span class="muted">—</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+</body>
+</html>
